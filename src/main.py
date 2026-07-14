@@ -10,3 +10,4 @@ def home():
     return {
         "message": "ResearchMind AI Backend Running 🚀"
     }
+    
