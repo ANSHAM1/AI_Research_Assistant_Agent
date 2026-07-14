@@ -1,4 +1,4 @@
-# 🧠 ResearchMind AI
+# 🧠 AI_Research_Assistant_Agent
 
 > An intelligent multi-agent research assistant powered by Large Language Models, Retrieval-Augmented Generation (RAG), and LangGraph for document understanding, reasoning, and tool-assisted analysis.
 
