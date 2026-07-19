@@ -1,4 +1,4 @@
-from src.llm.service import generate_response
+from src.llm.model import generate_response
 
 
 response = generate_response(

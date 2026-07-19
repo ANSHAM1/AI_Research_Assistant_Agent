@@ -9,9 +9,9 @@ embedding_model = GoogleGenerativeAIEmbeddings(
 )
 
 
-def embed_query(text: str) -> list[float]:
-    return embedding_model.embed_query(text)
+# def embed_query(text: str) -> list[float]:
+#     return embedding_model.embed_query(text)
 
 
-def embed_documents(documents: list[str]) -> list[list[float]]:
-    return embedding_model.embed_documents(documents)
+# def embed_documents(documents: list[str]) -> list[list[float]]:
+#     return embedding_model.embed_documents(documents)

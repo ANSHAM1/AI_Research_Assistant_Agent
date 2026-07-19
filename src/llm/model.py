@@ -1,8 +1,8 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.output_parsers import StrOutputParser
+# from langchain_core.output_parsers import StrOutputParser
 
 from src.config import settings
-from src.llm.prompts import research_prompt
+# from src.llm.prompts import research_prompt
 
 
 llm = ChatGoogleGenerativeAI(
@@ -12,18 +12,18 @@ llm = ChatGoogleGenerativeAI(
 )
 
 
-output_parser = StrOutputParser()
+# output_parser = StrOutputParser()
 
 # LCEL = LangChain Expression Language
-research_chain = research_prompt | llm | output_parser
+# research_chain = research_prompt | llm | output_parser
 
 
-def generate_response(message: str) -> str:
-    return research_chain.invoke(
-        {
-            "message": message,
-        }
-    )
+# def generate_response(message: str) -> str:
+#     return research_chain.invoke(
+#         {
+#             "message": message,
+#         }
+#     )
 
 
 # def generate_response(message: str) -> str:

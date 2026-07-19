@@ -1,4 +1,4 @@
-from src.embeddings.service import embed_query
+from src.embeddings.model import embed_query
 
 
 vector = embed_query(

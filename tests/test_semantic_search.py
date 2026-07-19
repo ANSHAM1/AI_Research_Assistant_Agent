@@ -1,4 +1,4 @@
-from src.embeddings.service import (embed_documents,embed_query)
+from src.embeddings.model import (embed_documents,embed_query)
 from src.embeddings.similarity import cosine_similarity
 
 
