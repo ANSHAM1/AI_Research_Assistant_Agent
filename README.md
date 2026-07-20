@@ -166,26 +166,6 @@ http://127.0.0.1:8000/docs
 
 ---
 
-# 🛣️ Roadmap
-
-* [x] Project setup
-* [x] FastAPI backend
-* [x] OpenAI integration
-* [x] Prompt templates
-* [x] PDF ingestion
-* [x] Text chunking
-* [x] Embeddings
-* [x] ChromaDB integration
-* [x] Retrieval-Augmented Generation
-* [ ] AI Agent with LangGraph
-* [ ] Tool Calling
-* [ ] Conversation Memory
-* [ ] Streamlit UI
-* [ ] Docker support
-* [ ] Deployment
-
----
-
 # 🤝 Contributing
 
 Contributions, suggestions, and feature requests are welcome.
