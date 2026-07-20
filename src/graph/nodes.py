@@ -1,4 +1,4 @@
-from src.graph.agent import agent_llm
+from src.agent.agent import agent_llm
 from src.graph.state import GraphState
 
 from src.memory.manager import extract_memory

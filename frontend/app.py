@@ -95,7 +95,7 @@ for message in st.session_state.messages: # type: ignore
 
 uploaded_attachment = st.file_uploader(
     "",
-    type=["pdf", "docx", "mp3"],
+    type=["pdf", "docx"],
     key="attachment"
 )
 

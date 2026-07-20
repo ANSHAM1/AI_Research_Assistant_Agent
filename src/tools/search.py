@@ -12,7 +12,7 @@ client = TavilyClient(
 
 
 @tool
-def web_search(query: str, max_results: int = 5) -> str:
+def search(query: str, max_results: int = 5) -> str:
     """
     Search the web for recent information.
 

@@ -3,7 +3,7 @@ from langgraph.prebuilt import tools_condition
 
 from src.graph.state import GraphState
 from src.graph.nodes import chatbot_node
-from src.graph.agent import tool_node
+from src.agent.agent import tool_node
 
 from src.memory.checkpointer import checkpointer
 from src.memory.store import initialize_database

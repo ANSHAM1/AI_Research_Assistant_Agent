@@ -14,18 +14,15 @@ TEMP_DIR = Path("data/temp")
 
 PDF_DIR = TEMP_DIR / "pdf"
 DOC_DIR = TEMP_DIR / "doc"
-AUDIO_DIR = TEMP_DIR / "audio"
 
 PDF_DIR.mkdir(parents=True, exist_ok=True)
 DOC_DIR.mkdir(parents=True, exist_ok=True)
-AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 
 
 @chat_router.post("/")
 async def chat(question: str = Form(...), files: List[UploadFile] = File(default=[])) -> dict[str, str]:
     pdf_files   : List[str] = []
     doc_files   : List[str] = []
-    audio_files : List[str] = []
 
     for file in files:
         if not file.filename: 
@@ -39,8 +36,6 @@ async def chat(question: str = Form(...), files: List[UploadFile] = File(default
             path = PDF_DIR / filename
         elif suffix == ".docx":
             path = DOC_DIR / file.filename
-        elif suffix == ".mp3":
-            path = AUDIO_DIR / file.filename
         else:
             raise HTTPException(status_code=400, detail=f"{file.filename} is not supported.")
 
@@ -50,16 +45,13 @@ async def chat(question: str = Form(...), files: List[UploadFile] = File(default
 
         if suffix == ".pdf":
             pdf_files.append(str(path))
-        elif suffix == ".docx":
-            doc_files.append(str(path))
         else:
-            audio_files.append(str(path))
+            doc_files.append(str(path))
 
     state : dict[str, str | list[str]] = { # type: ignore
         "question": question,
         "pdf_files": pdf_files,
-        "doc_files": doc_files,
-        "audio_files": audio_files,
+        "doc_files": doc_files
     }
 
     # result = research_graph.invoke(state)
