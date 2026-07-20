@@ -6,7 +6,7 @@ from langchain_core.messages import BaseMessage
 
 from src.utils.build_conversation import build_conversation
 
-from src.llm.model import llm
+from src.llm.llm_model import llm
 
 
 class MemoryExtraction(BaseModel):

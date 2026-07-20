@@ -1,6 +1,6 @@
 from langchain_core.tools import tool
 
-from src.rag.chain import generate_answer
+from src.store.chain import generate_answer
 
 
 @tool

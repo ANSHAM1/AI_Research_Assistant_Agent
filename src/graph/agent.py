@@ -1,6 +1,6 @@
 from langgraph.prebuilt import ToolNode
 
-from src.llm.model import llm
+from src.llm.llm_model import llm_model
 
 from src.tools.calculator import calculator
 from src.tools.rag_tool import rag_tool
@@ -19,4 +19,4 @@ tools = [
 tool_node = ToolNode(tools)
 
 
-agent_llm = llm.bind_tools(tools) # type: ignore
+agent_llm = llm_model.bind_tools(tools) # type: ignore

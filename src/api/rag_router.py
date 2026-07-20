@@ -5,6 +5,7 @@ from uuid import uuid4
 
 from langchain_core.documents import Document
 from src.tools.pdf_loader import load_pdf
+from src.store.ingester import ingest_documents
 
 
 
@@ -32,7 +33,7 @@ async def upload_documents(files: List[UploadFile] = File(...)) -> dict[str, Any
         elif loaded_docs is not None:
             saved_files.append(loaded_docs)
 
-    # ingest_documents(saved_files)
+    ingest_documents(saved_files)
 
     return {
         "status": "success",
