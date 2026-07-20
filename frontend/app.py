@@ -46,7 +46,12 @@ if prompt:
                 },
             )
 
-            answer = response.json()["answer"]
+            if response.ok:
+                answer = response.json()["answer"]
+            else:
+                st.error(f"Backend error ({response.status_code})")
+                st.code(response.text)
+                st.stop()
 
             st.markdown(answer)
 

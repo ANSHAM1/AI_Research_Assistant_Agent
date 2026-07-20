@@ -10,16 +10,20 @@ def process_memory(user_id: str, messages: list[BaseMessage]) -> None:
     and persist it if appropriate.
     """
 
-    memory = extract_memory(messages)
+    try:
+        memory = extract_memory(messages)
 
-    if memory is None:
-        return
+        if memory is None:
+            return
 
-    category, key, value = memory
+        category, key, value = memory
 
-    save_memory(
-        user_id=user_id,
-        category=category,
-        memory_key=key,
-        memory_value=value,
-    )
+        save_memory(
+            user_id=user_id,
+            category=category,
+            memory_key=key,
+            memory_value=value,
+        )
+
+    except Exception as e:
+        print(f"Memory extraction failed: {e}")
