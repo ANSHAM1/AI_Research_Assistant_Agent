@@ -29,7 +29,7 @@ with st.sidebar:
 
     rag_files = st.file_uploader(
         "Upload documents for RAG",
-        type=["pdf", "docx", "txt"],
+        type=["pdf"],
         accept_multiple_files=True
     )
 

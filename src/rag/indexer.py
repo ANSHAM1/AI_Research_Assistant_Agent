@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from src.rag.loader import load_pdf
+from src.tools.pdf_loader import load_pdf
 from src.rag.splitter import split_documents
 from src.rag.vectorstore import vector_store
 
