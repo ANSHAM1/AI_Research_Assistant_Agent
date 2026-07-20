@@ -170,13 +170,13 @@ http://127.0.0.1:8000/docs
 
 * [x] Project setup
 * [x] FastAPI backend
-* [ ] OpenAI integration
-* [ ] Prompt templates
-* [ ] PDF ingestion
-* [ ] Text chunking
-* [ ] Embeddings
-* [ ] ChromaDB integration
-* [ ] Retrieval-Augmented Generation
+* [x] OpenAI integration
+* [x] Prompt templates
+* [x] PDF ingestion
+* [x] Text chunking
+* [x] Embeddings
+* [x] ChromaDB integration
+* [x] Retrieval-Augmented Generation
 * [ ] AI Agent with LangGraph
 * [ ] Tool Calling
 * [ ] Conversation Memory
