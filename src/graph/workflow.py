@@ -1,4 +1,4 @@
-from langgraph.graph import (StateGraph, START, END)
+from langgraph.graph import (StateGraph, START, END) # type: ignore
 
 from src.graph.state import GraphState
 from src.graph.nodes import rag_node
