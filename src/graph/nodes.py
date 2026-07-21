@@ -1,5 +1,7 @@
 from langchain_core.messages import AIMessage
 
+from src.api.schemas import extract_response_text
+
 from src.graph.state import ResearchState
 
 from src.prompts.chat_prompt import chat_prompt
@@ -24,13 +26,26 @@ def router_node(state: ResearchState) -> dict[str, object]:
         }
     )
 
-    decision = (
-        response.content
-        if isinstance(response.content, str)
-        else str(response.content)
-    )
+    if isinstance(response.content, str):
+        decision = response.content.strip()
+    else:
+        try:
+            first = response.content[0]
+            if isinstance(first, dict) and "text" in first:
+                decision = first["text"].strip()
+            else:
+                decision = str(response.content).strip()
+        except Exception:
+            decision = str(response.content).strip()
 
-    use_rag = decision.strip().upper() == "USE_RAG"
+
+    use_rag = decision.upper() == "USE_RAG"
+
+    # print("====================")
+    # print("QUESTION:", state["question"])
+    # print("ROUTER OUTPUT:", decision)
+    # print("USE RAG:", use_rag)
+    # print("====================")
 
     return {
         "use_rag": use_rag
@@ -56,11 +71,9 @@ def chatbot_node(state: ResearchState) -> dict[str, object]:
         }
     )
 
-    answer = (
-        response.content
-        if isinstance(response.content, str)
-        else str(response.content)
-    )
+    print(response)
+    
+    answer = extract_response_text(response.content)
 
     return {
         "messages": [
@@ -83,4 +96,3 @@ def rag_node(state: ResearchState) -> dict[str, object]:
     return {
         "rag_context": result
     }
-

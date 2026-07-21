@@ -22,7 +22,7 @@ Web Context:
 {web_context}
 
 RAG Context:
-{retrieved_documents}
+{rag_context}
 """
         ),
 
