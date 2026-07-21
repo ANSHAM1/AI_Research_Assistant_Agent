@@ -1,5 +1,3 @@
-from langchain_core.messages import AIMessage
-
 from src.api.schemas import extract_response_text
 
 from src.graph.state import ResearchState
@@ -54,11 +52,6 @@ def router_node(state: ResearchState) -> dict[str, object]:
   
 
 def chatbot_node(state: ResearchState) -> dict[str, object]:
-    """
-    Final response generation node.
-    Uses conversation history + retrieved context
-    and updates only required state fields.
-    """
 
     chain = chat_prompt | agent_llm
 
@@ -67,21 +60,16 @@ def chatbot_node(state: ResearchState) -> dict[str, object]:
             "messages": state["messages"],
             "question": state["question"],
             "web_context": state.get("web_context", ""),
-            "rag_context": state.get("rag_context", [])
+            "rag_context": state.get("rag_context", []),
         }
     )
 
-    print(response)
-    
     answer = extract_response_text(response.content)
 
     return {
-        "messages": [
-            AIMessage(content=answer)
-        ],
+        "messages": [response],
         "answer": answer
     }
-
 
 
 def rag_node(state: ResearchState) -> dict[str, object]:
