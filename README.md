@@ -1,40 +1,40 @@
-# 🧠 AI_Research_Assistant_Agent
+# 🧠 ResearchMind AI
 
-> An intelligent multi-agent research assistant powered by Large Language Models, Retrieval-Augmented Generation (RAG), and LangGraph for document understanding, reasoning, and tool-assisted analysis.
+> An intelligent AI research assistant powered by LLMs, RAG, and LangGraph for document understanding, reasoning, and context-aware answers.
 
-![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=for-the-badge\&logo=python\&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge\&logo=fastapi\&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
 ![LangChain](https://img.shields.io/badge/LangChain-121212?style=for-the-badge)
 ![LangGraph](https://img.shields.io/badge/LangGraph-4B8BBE?style=for-the-badge)
 ![ChromaDB](https://img.shields.io/badge/ChromaDB-6E40C9?style=for-the-badge)
-![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge\&logo=streamlit\&logoColor=white)
-![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge\&logo=openai\&logoColor=white)
-![License](https://img.shields.io/badge/License-GPLv3-blue?style=for-the-badge)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 
 ---
 
-# 📖 Description
+# 📖 Overview
 
-ResearchMind AI is a production-inspired AI research assistant that combines **Large Language Models (LLMs)**, **Retrieval-Augmented Generation (RAG)**, **Vector Databases**, **AI Agents**, and **Tool Calling** to answer complex user queries using both private documents and external tools.
+ResearchMind AI is a production-inspired AI research assistant that combines:
 
-Instead of relying solely on an LLM's internal knowledge, the system retrieves relevant information from uploaded documents, performs multi-step reasoning, invokes tools when necessary, and generates accurate, context-aware responses.
+- Large Language Models (LLMs)
+- Retrieval-Augmented Generation (RAG)
+- Vector Databases
+- LangGraph workflows
+- Tool-assisted reasoning (AI Agent)
+- Conversation/session memory
 
-The project is designed to demonstrate modern AI Engineering concepts and production-ready architecture while remaining modular, scalable, and easy to extend.
+The system allows users to upload documents, retrieve relevant information, and generate grounded answers instead of relying only on an LLM's internal knowledge.
 
 ---
 
 # ❗ Problem
 
-Traditional LLM-based chatbots suffer from several limitations:
+Traditional LLM chatbots have limitations:
 
-* Limited knowledge beyond their training data
-* Hallucinated or fabricated responses
-* Inability to access private documents
-* Lack of long-term conversational memory
-* No capability to perform external actions or use tools
-* Difficulty solving multi-step reasoning tasks
-
-These limitations make standard chatbots unsuitable for research-intensive or enterprise use cases.
+- No access to private documents
+- Hallucinated information
+- No semantic document search
+- Limited reasoning capabilities
+- No persistent conversation context
 
 ---
 
@@ -48,47 +48,61 @@ The application:
 * Retrieves relevant information from uploaded documents using RAG
 * Stores semantic document embeddings in a vector database
 * Maintains conversational memory for contextual interactions
-* Uses AI Agents to plan and execute multi-step tasks
-* Invokes external tools (calculator, search, etc.) when required
+* Uses AI Agents to plan and execute multi-step tasks(calculation, web search)
 * Produces grounded, explainable, and context-aware responses
 
 ---
 
-# ✨ Features
+# 🏗️ LangGraph Workflow
 
-* 📄 Intelligent PDF document ingestion
-* 🔍 Semantic document search using embeddings
-* 🧠 Retrieval-Augmented Generation (RAG)
-* 🤖 Multi-Agent workflow powered by LangGraph
-* 🛠️ Tool Calling for external capabilities
-* 💬 Conversation memory
-* ⚡ FastAPI backend
-* 🎨 Streamlit frontend
-* 📊 Modular and scalable architecture
-* 🔒 Environment-based configuration
-* 📦 Ready for containerization and deployment
+The assistant uses a conditional workflow:
+
+1. User sends a question
+2. Router LLM decides whether external knowledge is required
+3. If RAG is needed:
+   - Retrieve relevant documents from ChromaDB
+   - Add retrieved context to the state
+4. Generate the final answer using the LLM
+5. Return the response
+
+Flow:
+
+START
+ |
+ v
+router_node
+ |
+ |---- no rag ----> chatbot_node ----> END
+ |
+ |---- rag -------> rag_node
+                       |
+                       v
+                  chatbot_node
+                       |
+                       v
+                      END
 
 ---
 
-# 🚀 Tech Stack
+# 🧩 Final Graph Architecture
 
-| Category                  | Technologies                       |
-| ------------------------- | ---------------------------------- |
-| **Language**              | Python 3.12                        |
-| **LLM Framework**         | LangChain                          |
-| **Agent Framework**       | LangGraph                          |
-| **Language Models**       | OpenAI GPT / Ollama (Local Models) |
-| **RAG Pipeline**          | LangChain Retrieval                |
-| **Embeddings**            | OpenAI Embeddings                  |
-| **Vector Database**       | ChromaDB                           |
-| **Backend API**           | FastAPI                            |
-| **Frontend**              | Streamlit                          |
-| **Configuration**         | python-dotenv                      |
-| **Tokenization**          | tiktoken                           |
-| **HTTP Client**           | httpx                              |
-| **PDF Processing**        | PyPDF                              |
-| **Dependency Management** | uv                                 |
-| **Version Control**       | Git & GitHub                       |
+             START
+               |
+               v
+          router_node
+               |
+      +--------+--------+
+      |                 |
+      v                 v
+  chatbot_node       rag_node
+      |                 |
+      |                 v
+      |            chatbot_node
+      |                 |
+      +--------+--------+
+               |
+               v
+              END
 
 ---
 
@@ -142,35 +156,28 @@ Create a `.env` file in the project root.
 
 ```env
 OPENAI_API_KEY=your_api_key_here
+TAVILY_API_KEY=your_api_key_here
 ```
 
 ---
 
-## 5. Run the backend
+## 5. Run the backend 
 
 ```bash
 uv run uvicorn app.main:app --reload
 ```
 
+## 6. Run the frontend   
+
+```
+streamlit run .\frontend\app.py  
+```
+
 Open:
 
 ```
-http://127.0.0.1:8000
+http://localhost:8501/
 ```
-
-Swagger Documentation:
-
-```
-http://127.0.0.1:8000/docs
-```
-
----
-
-# 🤝 Contributing
-
-Contributions, suggestions, and feature requests are welcome.
-
-If you find a bug or have an improvement in mind, feel free to open an issue or submit a pull request.
 
 ---
 
