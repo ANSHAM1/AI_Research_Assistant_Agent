@@ -13,17 +13,13 @@ class ResearchState(TypedDict):
     # Current query
     question: str
 
-    # Temporary chat attachments
-    pdf_files: list[str]
-    doc_files: list[str]
-    audio_files: list[str]
-
     # Retrieved RAG documents
-    retrieved_documents: list[Document]
+    rag_context: list[Document]
+
+    # Router decision
+    use_rag: bool
 
     # Tool outputs
-    attachment_context: str
-    rag_context: str
     web_context: str
 
     # Final response

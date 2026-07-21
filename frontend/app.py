@@ -3,11 +3,6 @@ import requests
 
 from pathlib import Path
 
-css = Path(__file__).parent / "styles.css"
-
-with open(css) as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
 API_URL = "http://localhost:8000"
 
 st.set_page_config(
@@ -15,6 +10,11 @@ st.set_page_config(
     page_icon="🤖",
     layout="wide"
 )
+
+css = Path(__file__).parent / "styles.css"
+
+with open(css) as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -93,48 +93,19 @@ for message in st.session_state.messages: # type: ignore
 # Chat Input
 # -----------------------------
 
-uploaded_attachment = st.file_uploader(
-    "",
-    type=["pdf", "docx"],
-    key="attachment"
-)
-
 prompt = st.chat_input("Ask anything...")
 
 if prompt:
-
-    attachments = []
-
-    files = []
-
-    if uploaded_attachment:
-
-        attachments.append(uploaded_attachment.name) # type: ignore
-
-        files.append( # type: ignore
-            (
-                "files",
-                (
-                    uploaded_attachment.name,
-                    uploaded_attachment.getvalue(),
-                    uploaded_attachment.type
-                )
-            )
-        )
 
     st.session_state.messages.append( # type: ignore
         {
             "role": "user",
             "content": prompt,
-            "attachments": attachments
         }
     )
 
     with st.chat_message("user"):
         st.markdown(prompt)
-
-        for a in attachments: # type: ignore
-            st.caption(f"📎 {a}")
 
     payload = {
         "question": prompt
@@ -146,8 +117,7 @@ if prompt:
 
             response = requests.post(
                 f"{API_URL}/chat",
-                data=payload,
-                files=files # type: ignore
+                data=payload
             )
 
             if response.status_code == 200:

@@ -1,52 +1,82 @@
 from langgraph.graph import StateGraph, START, END # type: ignore
-from langgraph.prebuilt import tools_condition
 
-from src.graph.state import GraphState
-from src.graph.nodes import chatbot_node
-from src.agent.agent import tool_node
-
-from src.memory.checkpointer import checkpointer
-from src.memory.store import initialize_database
+from src.graph.state import ResearchState
+from src.graph.nodes import chatbot_node, rag_node, router_node
 
 
-initialize_database()
+builder = StateGraph(ResearchState)
 
-builder = StateGraph(GraphState)
-
+# Add nodes
+builder.add_node("router", router_node) # type: ignore
 builder.add_node("chatbot", chatbot_node) # type: ignore
-builder.add_node("tools", tool_node) # type: ignore
+builder.add_node("rag", rag_node) # type: ignore
 
-builder.add_edge(START, "chatbot")
+# START -> router
+builder.add_edge(START, "router")
 
+
+# Router decision function
+def decide_rag(state: ResearchState) -> str:
+
+    if state["use_rag"]:
+        return "rag"
+
+    return "chatbot"
+
+
+# Conditional routing
 builder.add_conditional_edges(
-    "chatbot",
-    tools_condition,
+    "router",
+    decide_rag,
+    {
+        "rag": "rag",
+        "chatbot": "chatbot"
+    }
 )
 
-builder.add_edge("tools", "chatbot")
+# After RAG, go back to chatbot
+builder.add_edge("rag", "chatbot")
 
+# Final node
 builder.add_edge("chatbot", END)
 
-graph = builder.compile(checkpointer=checkpointer) # type: ignore
+
+
+graph = builder.compile() # type: ignore
+
+
+
+# flow:
 
 # START
-#    │
-#    ▼
-# Chatbot
-#    │
-#    ├── Tool Call?
-#    │      │
-#    │      ├── No ─────► END
-#    │      │
-#    │      └── Yes
-#    │             │
-#    ▼             ▼
-#  ToolNode ─────► Chatbot
-#                     │
-#              More tool calls?
-#                     │
-#           Yes ──────┘
-#           No
-#           │
-#           ▼
-#          END
+#  |
+#  v
+# router_node
+#  |
+#  |---- no rag ----> chatbot_node ----> END
+#  |
+#  |---- rag -------> rag_node
+#                        |
+#                        v
+#                   chatbot_node
+#                        |
+#                        v
+#                       END
+
+
+# Final graph:
+
+#           START
+#             |
+#             v
+#       decision_node
+#          /      \
+#       RAG        Direct
+#        |          |
+#        v          |
+#    rag_node       |
+#        |          |
+#        └----> chatbot_node
+#                    |
+#                    v
+#                   END
