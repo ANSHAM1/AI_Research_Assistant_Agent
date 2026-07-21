@@ -67,20 +67,20 @@ The assistant uses a conditional workflow:
 
 Flow:
 
-START
- |
- v
-router_node
- |
- |---- no rag ----> chatbot_node ----> END
- |
- |---- rag -------> rag_node
-                       |
-                       v
-                  chatbot_node
-                       |
-                       v
-                      END
+    START
+      |
+      v
+    router_node
+      |
+      |---- no rag ----> chatbot_node ----> END
+      |
+      |---- rag -------> rag_node
+                            |
+                            v
+                       chatbot_node
+                            |
+                            v
+                           END
 
 ---
 
@@ -94,7 +94,7 @@ router_node
       +--------+--------+
       |                 |
       v                 v
-  chatbot_node       rag_node
+    chatbot_node     rag_node
       |                 |
       |                 v
       |            chatbot_node
