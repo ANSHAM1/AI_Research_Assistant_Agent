@@ -55,15 +55,19 @@ The application:
 
 # 🏗️ LangGraph Workflow
 
-The assistant uses a conditional workflow:
+The assistant uses a conditional LangGraph workflow:
 
-1. User sends a question
-2. Router LLM decides whether external knowledge is required
-3. If RAG is needed:
-   - Retrieve relevant documents from ChromaDB
-   - Add retrieved context to the state
-4. Generate the final answer using the LLM
-5. Return the response
+1. User sends a question.
+2. Router LLM determines whether Retrieval-Augmented Generation (RAG) is required.
+3. If RAG is required:
+   - Retrieve relevant documents from ChromaDB.
+   - Store the retrieved context in the graph state.
+4. The chatbot LLM generates a response.
+5. If the LLM requests a tool:
+   - Execute the appropriate tool.
+   - Return the tool result to the chatbot.
+   - Generate the final response.
+6. Return the answer to the user.
 
 Flow:
 
@@ -72,38 +76,71 @@ Flow:
       v
     router_node
       |
-      |---- no rag ----> chatbot_node ----> END
+      |---- no rag ----> chatbot_node ----+
+      |                                   |
+      |                           Tool Required?
+      |                            /         \
+      |                          Yes         No
+      |                           |           |
+      |                           v           v
+      |                      tool_node       END
+      |                           |
+      |                           v
+      |                     chatbot_node
+      |                           |
+      |                           v
+      |                          END
       |
       |---- rag -------> rag_node
                             |
                             v
                        chatbot_node
                             |
-                            v
-                           END
+                     Tool Required?
+                       /         \
+                     Yes         No
+                      |           |
+                      v           v
+                 tool_node       END
+                      |
+                      v
+                chatbot_node
+                      |
+                      v
+                     END
 
 ---
 
 # 🧩 Final Graph Architecture
 
-             START
-               |
-               v
-          router_node
-               |
-      +--------+--------+
-      |                 |
-      v                 v
-    chatbot_node     rag_node
-      |                 |
-      |                 v
-      |            chatbot_node
-      |                 |
-      +--------+--------+
-               |
-               v
-              END
-
+                          START
+                            |
+                            v
+                      router_node
+                     /            \
+                USE_RAG         NO_RAG
+                   |               |
+                   v               |
+              rag_node             |
+                   |               |
+                   +-------+-------+
+                           |
+                           v
+                     chatbot_node
+                           |
+                  Tool Required?
+                     /         \
+                   Yes         No
+                    |           |
+                    v           v
+                tool_node      END
+                    |
+                    v
+              chatbot_node
+                    |
+                    v
+                   END
+                   
 ---
 
 # ⚙️ Installation
