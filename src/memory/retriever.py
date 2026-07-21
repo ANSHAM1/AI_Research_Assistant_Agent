@@ -1,4 +1,4 @@
-from src.memory.store import get_memories
+from src.memory.memstore import get_memories
 
 
 def build_memory_context(user_id: str) -> str:

@@ -1,8 +1,8 @@
 from typing import List
 from langchain_core.documents import Document
 
-from src.store.splitter import split_documents
-from src.store.vectorstore import vector_store
+from src.vectors.splitter import split_documents
+from src.vectors.vectorstore import vector_store
 
 
 def ingest_documents(docs : List[Document]) -> None:

@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from langchain_core.documents import Document
 from src.utils.pdf_loader import load_pdf
-from src.store.ingester import ingest_documents
+from src.vectors.ingester import ingest_documents
 
 
 

@@ -3,6 +3,8 @@ from langgraph.graph import StateGraph, START, END # type: ignore
 from src.graph.state import ResearchState
 from src.graph.nodes import chatbot_node, rag_node, router_node
 
+from src.memory.checkpointer import checkpointer
+
 
 builder = StateGraph(ResearchState)
 
@@ -42,7 +44,7 @@ builder.add_edge("chatbot", END)
 
 
 
-graph = builder.compile() # type: ignore
+graph = builder.compile(checkpointer=checkpointer) # type: ignore
 
 
 

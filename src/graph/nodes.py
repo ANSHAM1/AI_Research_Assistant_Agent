@@ -6,7 +6,8 @@ from src.prompts.chat_prompt import chat_prompt
 from src.prompts.router_prompt import router_prompt
 from src.agent.agent import agent_llm
 
-from src.store.vectorstore import retriever
+from src.vectors.vectorstore import retriever
+
 
 
 def router_node(state: ResearchState) -> dict[str, object]:
@@ -36,6 +37,7 @@ def router_node(state: ResearchState) -> dict[str, object]:
     }
 
   
+
 def chatbot_node(state: ResearchState) -> dict[str, object]:
     """
     Final response generation node.
@@ -66,6 +68,7 @@ def chatbot_node(state: ResearchState) -> dict[str, object]:
         ],
         "answer": answer
     }
+
 
 
 def rag_node(state: ResearchState) -> dict[str, object]:
